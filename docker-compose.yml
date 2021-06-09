@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  servidor:
+    image: fjortegan/dwes:laravel
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    ports:
+      - "80:80"
+    # development
+    volumes:
+      - ./laravel:/var/www/html/
+
+  db:
+    image: mariadb
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db-init:/docker-entrypoint-initdb.d/      
+    environment:
+      MYSQL_DATABASE: instagram
+      MYSQL_USER: david
+      MYSQL_PASSWORD: asd1234
+      MYSQL_ROOT_PASSWORD: asd1234
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_ARBITRARY=1
